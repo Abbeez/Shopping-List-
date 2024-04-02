@@ -76,8 +76,25 @@ function checkUi() {
   }
 }
 
+function filterItems(e) {
+  const items = shoppingItemList.querySelectorAll('li');
+  const text = e.target.value.toLowerCase();
+
+  console.log(text);
+
+  items.forEach((item) => {
+    const itemName = item.firstChild.textContent.toLowerCase();
+    if (itemName.indexOf(text) != -1) {
+      item.style.display = 'flex';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
 shoppingform.addEventListener('submit', addItem);
 shoppingItemList.addEventListener('click', removeItem);
 clearBtn.addEventListener('click', clearItem);
+itemFilter.addEventListener('input', filterItems);
 
 checkUi();
