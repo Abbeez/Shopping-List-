@@ -1,6 +1,7 @@
 const shoppingform = document.getElementById('item-form');
 const shoppingItem = document.getElementById('item-input');
 const shoppingItemList = document.getElementById('item-list');
+const clearBtn = document.getElementById('clear');
 
 // Event Handler
 
@@ -41,4 +42,21 @@ function createIcon(classes) {
   return icon;
 }
 
+function removeItem(e) {
+  // console.log(e.target.parentElement.classList.contains('remove-item'));
+  console.log(e.target.parentElement);
+  if (e.target.parentElement.classList.contains('remove-item')) {
+    e.target.parentElement.parentElement.remove();
+  }
+}
+
+function clearItem(e) {
+  while (shoppingItemList.firstChild) {
+    console.log('remove mo');
+    shoppingItemList.removeChild(shoppingItemList.firstChild);
+  }
+}
+
 shoppingform.addEventListener('submit', addItem);
+shoppingItemList.addEventListener('click', removeItem);
+clearBtn.addEventListener('click', clearItem);
