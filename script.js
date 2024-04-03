@@ -3,6 +3,7 @@ const shoppingItem = document.getElementById('item-input');
 const shoppingItemList = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
 const itemFilter = document.getElementById('filter');
+const emptyResult = document.getElementById('empty-result');
 
 // Event Handler
 
