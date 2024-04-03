@@ -5,6 +5,13 @@ const clearBtn = document.getElementById('clear');
 const itemFilter = document.getElementById('filter');
 const emptyResult = document.getElementById('empty-result');
 
+function displayItems() {
+  const itemsFromStorage = getItemsFromStorage();
+
+  itemsFromStorage.forEach((item) => addItemToDom(item));
+  checkUi();
+}
+
 // Event Handler
 
 function onAddItemSubmit(e) {
@@ -43,21 +50,6 @@ function addItemToDom(item) {
   shoppingItemList.appendChild(li);
 }
 
-function addItemToStorage(item) {
-  let itemsFromStorage;
-  if (localStorage.getItem('items') === null) {
-    itemsFromStorage = [];
-  } else {
-    itemsFromStorage = JSON.parse(localStorage.getItem('items'));
-  }
-
-  itemsFromStorage.push(item);
-
-  // Convert to JSON String
-
-  localStorage.setItem('items', JSON.stringify(itemsFromStorage));
-}
-
 function createButton(classes) {
   const button = document.createElement('button');
   const icon = createIcon('fa-solid fa-xmark');
@@ -70,6 +62,27 @@ function createIcon(classes) {
   const icon = document.createElement('i');
   icon.className = classes;
   return icon;
+}
+
+function addItemToStorage(item) {
+  const itemsFromStorage = getItemsFromStorage();
+
+  itemsFromStorage.push(item);
+
+  // Convert to JSON String
+
+  localStorage.setItem('items', JSON.stringify(itemsFromStorage));
+}
+
+function getItemsFromStorage() {
+  let itemsFromStorage;
+  if (localStorage.getItem('items') === null) {
+    itemsFromStorage = [];
+  } else {
+    itemsFromStorage = JSON.parse(localStorage.getItem('items'));
+  }
+
+  return itemsFromStorage;
 }
 
 function removeItem(e) {
@@ -114,9 +127,16 @@ function filterItems(e) {
   });
 }
 
-shoppingform.addEventListener('submit', onAddItemSubmit);
-shoppingItemList.addEventListener('click', removeItem);
-clearBtn.addEventListener('click', clearItem);
-itemFilter.addEventListener('input', filterItems);
+// Initialize App
 
-checkUi();
+function init() {
+  shoppingform.addEventListener('submit', onAddItemSubmit);
+  shoppingItemList.addEventListener('click', removeItem);
+  clearBtn.addEventListener('click', clearItem);
+  itemFilter.addEventListener('input', filterItems);
+  document.addEventListener('DOMContentLoaded', displayItems);
+
+  checkUi();
+}
+
+init();
