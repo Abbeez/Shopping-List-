@@ -7,7 +7,7 @@ const emptyResult = document.getElementById('empty-result');
 
 // Event Handler
 
-function addItem(e) {
+function onAddItemSubmit(e) {
   e.preventDefault();
 
   // Validate Input
@@ -17,20 +17,45 @@ function addItem(e) {
     return;
   }
 
+  // Create Item DOM Element
+  addItemToDom(newItem);
+
+  // Add item to local Storage
+
+  addItemToStorage(newItem);
+
+  checkUi();
+
+  shoppingItem.value = '';
+}
+
+function addItemToDom(item) {
   //   Create list item
 
   const li = document.createElement('li');
-  li.appendChild(document.createTextNode(newItem));
+  li.appendChild(document.createTextNode(item));
 
   const button = createButton('remove-item btn-link text-red');
 
   li.appendChild(button);
-  console.log(li);
 
   // Add LI to DOM
   shoppingItemList.appendChild(li);
+}
 
-  checkUi();
+function addItemToStorage(item) {
+  let itemsFromStorage;
+  if (localStorage.getItem('items') === null) {
+    itemsFromStorage = [];
+  } else {
+    itemsFromStorage = JSON.parse(localStorage.getItem('items'));
+  }
+
+  itemsFromStorage.push(item);
+
+  // Convert to JSON String
+
+  localStorage.setItem('items', JSON.stringify(itemsFromStorage));
 }
 
 function createButton(classes) {
@@ -48,8 +73,6 @@ function createIcon(classes) {
 }
 
 function removeItem(e) {
-  // console.log(e.target.parentElement.classList.contains('remove-item'));
-  console.log(e.target.parentElement);
   if (e.target.parentElement.classList.contains('remove-item')) {
     if (confirm('Are you sure?')) {
       e.target.parentElement.parentElement.remove();
@@ -81,8 +104,6 @@ function filterItems(e) {
   const items = shoppingItemList.querySelectorAll('li');
   const text = e.target.value.toLowerCase();
 
-  console.log(text);
-
   items.forEach((item) => {
     const itemName = item.firstChild.textContent.toLowerCase();
     if (itemName.indexOf(text) != -1) {
@@ -93,7 +114,7 @@ function filterItems(e) {
   });
 }
 
-shoppingform.addEventListener('submit', addItem);
+shoppingform.addEventListener('submit', onAddItemSubmit);
 shoppingItemList.addEventListener('click', removeItem);
 clearBtn.addEventListener('click', clearItem);
 itemFilter.addEventListener('input', filterItems);
