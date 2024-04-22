@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+      "path": ".."
+    },
+    {
+      "path": "../../resources"
+    },
+    {
+      "path": "../../abbezJS/js-final/javascript-sandbox-final"
+    }
+  ],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "Projects"
+  }
+}
