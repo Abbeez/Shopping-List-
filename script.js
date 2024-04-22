@@ -27,6 +27,17 @@ function onAddItemSubmit(e) {
     return;
   }
 
+  // Check for edit mode
+
+  if (isEditMode) {
+    const itemToEdit = shoppingItemList.querySelector('.edit-mode');
+
+    removeItemFromStorage(itemToEdit.textContent);
+    itemToEdit.classList.remove('edit-mode');
+    itemToEdit.remove();
+    isEditMode = false;
+  }
+
   // Create Item DOM Element
   addItemToDom(newItem);
 
@@ -140,6 +151,7 @@ function clearItem(e) {
 }
 
 function checkUi() {
+  shoppingItem.value = '';
   const items = shoppingItemList.querySelectorAll('li');
   if (items.length === 0) {
     clearBtn.style.display = 'none';
@@ -148,6 +160,10 @@ function checkUi() {
     clearBtn.style.display = 'block';
     itemFilter.style.display = 'block';
   }
+  formBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add item';
+  formBtn.style.backgroundColor = '#333';
+
+  isEditMode = false;
 }
 
 function filterItems(e) {
